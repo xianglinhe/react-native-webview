@@ -601,12 +601,11 @@ static NSURLCredential* clientAuthenticationCredential;
           thenCall: (void (^)(NSString*)) callback
 {
   [self.webView evaluateJavaScript: js completionHandler: ^(id result, NSError *error) {
-    if (error == nil) {
       if (callback != nil) {
         callback([NSString stringWithFormat:@"%@", result]);
       }
-    } else {
-      RCTLogError(@"Error evaluating injectedJavaScript: This is possibly due to an unsupported return type. Try adding true to the end of your injectedJavaScript string.");
+    if (error != nil) {
+      RCTLogWarn(@"Error evaluating injectedJavaScript: This is possibly due to an unsupported return type. Try adding true to the end of your injectedJavaScript string.");
     }
   }];
 }
